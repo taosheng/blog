@@ -5,9 +5,10 @@ const fs = require('fs');
 
 const targetURL = argv.url || 'https://www.shopback.com.tw';
 const outfileName = argv.f || 's.png';
+const delay = argv.d || 10;
 console.log(outfileName)
-const viewport = [1024,3072];
-const screenshotDelay = 10000; // ms
+const viewport = [1680,3072];
+const screenshotDelay = 1000*delay; // ms
 const fullPage = argv.fullPage || true;
 
 if(fullPage){
