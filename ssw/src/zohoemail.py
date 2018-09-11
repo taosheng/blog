@@ -34,4 +34,7 @@ def sendZohoMail(to, target, location):
     session.quit()
 
 
-if __name__ == ''
+if __name__ == '__main__':
+    print("send zoho email")
+
+    sendZohoMail('dougchen@yandex.com','http://www.kimo.com.tw','xxx')

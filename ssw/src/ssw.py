@@ -5,6 +5,7 @@ import os
 import datetime
 import configparser
 import subprocess
+from zohoemail import sendZohoMail 
 
 
 today = datetime.datetime.now().strftime("%Y%m%d")
@@ -20,10 +21,10 @@ if __name__ == '__main__':
     config.read(sys.argv[1])
     session = config['DEFAULT']
     print(dir(session))
-    print(session['name'])
-    print(session['email'])
+    username = session['name']
+    email = session['email']
     urls = session['urls'].split(',')
-    workingfolder = wwwroot+session['name']+"/"+today
+    workingfolder = wwwroot + username + "/"+today
     createFolder(workingfolder)
     gapRat = 3
     cnt = 1
@@ -32,10 +33,11 @@ if __name__ == '__main__':
         print("call cap.js")
         outfilename = url.replace('http://','').replace('https://','').replace('/','')
         outfilename = outfilename + "_" + today + str(cnt) + ".png"
-        capargs = ['/home/doug/node/bin/node','cap.js', '--url='+url, '--f='+outfilename,'--d=13']
+        capargs = ['/home/doug/node/bin/node','cap.js', '--url='+url, '--f='+outfilename,'--d=17']
         p = subprocess.run(capargs)
         cnt += 1
         mvargs = ['mv',outfilename,workingfolder]
         p = subprocess.run(mvargs)
      
-
+    location = "http://doug.rareodds.com/ss/" + username + "/"+today
+    sendZohoMail(email, "定期網頁截圖", location)
