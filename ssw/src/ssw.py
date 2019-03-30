@@ -3,6 +3,7 @@
 import sys
 import os
 import datetime
+import time
 import configparser
 import subprocess
 from zohoemail import sendZohoMail 
@@ -28,16 +29,19 @@ if __name__ == '__main__':
     createFolder(workingfolder)
     gapRat = 3
     cnt = 1
+    delay = 17
     for url in urls:
         print(url)
         print("call cap.js")
         outfilename = url.replace('http://','').replace('https://','').replace('/','')
-        outfilename = outfilename + "_" + today + str(cnt) + ".png"
-        capargs = ['/home/doug/node/bin/node','cap.js', '--url='+url, '--f='+outfilename,'--d=17']
+        outfilename = outfilename + "_" + today + "_"+ str(int(time.time())) + ".png"
+        capargs = ['/home/doug/node/bin/node','cap.js', '--url='+url, '--f='+outfilename,'--d='+str(delay)]
+        delay = delay + 5
+
         p = subprocess.run(capargs)
         cnt += 1
         mvargs = ['mv',outfilename,workingfolder]
         p = subprocess.run(mvargs)
      
     location = "http://doug.rareodds.com/ss/" + username + "/"+today
-    sendZohoMail(email, "定期網頁截圖", location)
+    sendZohoMail(email, "screenshot", location)
